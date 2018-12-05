@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="myfly:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="neusoft.war">
+      <element id="artifact" artifact-name="myfly:war exploded" />
+    </root>
+  </artifact>
+</component>
