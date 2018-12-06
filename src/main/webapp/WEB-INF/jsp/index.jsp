@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="../static/layui/css/layui.css">
-    <link rel="stylesheet" href="../static/css/global.css">
-    <script src="../json/signin.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/global.css">
+    <script src="${pageContext.request.contextPath}/json/signin.js"></script>
 </head>
 <body>
 
 <div class="fly-header layui-bg-black">
     <div class="layui-container">
         <a class="fly-logo" href="/">
-            <img src="../static/images/logo.png" alt="layui">
+            <img src="${pageContext.request.contextPath}/static/images/logo.png" alt="layui">
         </a>
         <ul class="layui-nav fly-nav layui-hide-xs">
             <li class="layui-nav-item layui-this">
@@ -34,7 +34,7 @@
 
             <!-- 未登入的状态 -->
             <li class="layui-nav-item">
-                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.jsp"></a>
+                <a class="iconfont icon-touxiang layui-hide-xs" href="login"></a>
             </li>
             <li class="layui-nav-item">
                 <a href="${pageContext.request.contextPath}/login">登入</a>
@@ -791,19 +791,19 @@
     </p>
 </div>
 
-<script src="../static/layui/layui.js"></script>
+<script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
     layui.cache.page = '';
     layui.cache.user = {
         username: '游客'
         ,uid: -1
-        ,avatar: '../static/images/avatar/00.jpg'
+        ,avatar: '${pageContext.request.contextPath}/static/images/avatar/00.jpg'
         ,experience: 83
         ,sex: '男'
     };
     layui.config({
         version: "3.0.0"
-        ,base: '../static/mods/' //这里实际使用时，建议改成绝对路径
+        ,base: '${pageContext.request.contextPath}/static/mods/' //这里实际使用时，建议改成绝对路径
     }).extend({
         fly: 'index'
     }).use('fly');

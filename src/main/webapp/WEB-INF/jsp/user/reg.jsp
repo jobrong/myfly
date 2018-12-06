@@ -15,15 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="../../static/layui/css/layui.css">
-    <link rel="stylesheet" href="../../static/css/global.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/global.css">
 </head>
 <body>
 
 <div class="fly-header layui-bg-black">
     <div class="layui-container">
         <a class="fly-logo" href="/">
-            <img src="../../static/images/logo.png" alt="layui">
+            <img src="${pageContext.request.contextPath}/static/images/logo.png" alt="layui">
         </a>
         <ul class="layui-nav fly-nav layui-hide-xs">
             <li class="layui-nav-item layui-this">
@@ -40,13 +40,13 @@
         <ul class="layui-nav fly-nav-user">
             <!-- 未登入的状态 -->
             <li class="layui-nav-item">
-                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.jsp"></a>
+                <a class="iconfont icon-touxiang layui-hide-xs" href="login"></a>
             </li>
             <li class="layui-nav-item">
-                <a href="user/jsplogin.">登入</a>
+                <a href="login">登入</a>
             </li>
             <li class="layui-nav-item">
-                <a href="user/reg.jsp">注册</a>
+                <a href="reg">注册</a>
             </li>
             <li class="layui-nav-item layui-hide-xs">
                 <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
@@ -62,7 +62,7 @@
     <div class="fly-panel fly-panel-user" pad20>
         <div class="layui-tab layui-tab-brief" lay-filter="user">
             <ul class="layui-tab-title">
-                <li><a href="login.jsp">登入</a></li>
+                <li><a href="login">登入</a></li>
                 <li class="layui-this">注册</li>
             </ul>
             <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
@@ -130,19 +130,19 @@
     </p>
 </div>
 
-<script src="../../static/layui/layui.js"></script>
+<script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 <script>
     layui.cache.page = 'user';
     layui.cache.user = {
         username: '游客'
         ,uid: -1
-        ,avatar: '../../static/images/avatar/00.jpg'
+        ,avatar: '${pageContext.request.contextPath}/static/images/avatar/00.jpg'
         ,experience: 83
         ,sex: '男'
     };
     layui.config({
         version: "3.0.0"
-        ,base: '../../static/mods/'
+        ,base: '${pageContext.request.contextPath}/static/mods/'
     }).extend({
         fly: 'index'
     }).use('fly');

@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -39,13 +38,13 @@
         <ul class="layui-nav fly-nav-user">
             <!-- 未登入的状态 -->
             <li class="layui-nav-item">
-                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.jsp"></a>
+                <a class="iconfont icon-touxiang layui-hide-xs" href="login"></a>
             </li>
             <li class="layui-nav-item">
-                <a href="user/login.jsp">登入</a>
+                <a href="login">登入</a>
             </li>
             <li class="layui-nav-item">
-                <a href="user/reg.jsp">注册</a>
+                <a href="reg">注册</a>
             </li>
             <li class="layui-nav-item layui-hide-xs">
                 <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
@@ -62,7 +61,7 @@
         <div class="layui-tab layui-tab-brief" lay-filter="user">
             <ul class="layui-tab-title">
                 <li class="layui-this">登入</li>
-                <li><a href="reg.jsp">注册</a></li>
+                <li><a href="reg">注册</a></li>
             </ul>
             <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show">
