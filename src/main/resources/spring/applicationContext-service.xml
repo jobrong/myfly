@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -13,10 +14,9 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 
+
     <context:component-scan base-package="com.neusoft.service"></context:component-scan>
 
 
-    <!--     <bean id="ibs" class="com.neusoft.service.impl.AccountServiceImpl"/>
-        <bean id="ius" class="com.neusoft.service.impl.UserServiceImpl"/> -->
-</beans>
 
+</beans>

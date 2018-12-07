@@ -10,98 +10,93 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8">
     <title>注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/global.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/res/layui/css/layui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/res/css/global.css">
+    <script src="${pageContext.request.contextPath}/res/jquery-3.3.1.js"></script>
+    <script src="${pageContext.request.contextPath}/res/mods/utile.js"></script>
+    <script>
+        function checkemail() {
+            var a=$("#form1").serialize();
+            if($("#L_email").val().length==0){
+                $("#span_return_checkEmail").text("输入邮箱为空，请重新输入");
+                return
+            }
+            $.post({
+                url:"${pageContext.request.contextPath}/user/checkEmail",
+                data:a,
+                dataType:"json",
+                success:function (data) {
+                    $("#span_return_checkEmail").text(data.msg);
+                }
+            })
+        }
+        function checkre() {
+            if ($('#L_repass').val() != $('#L_pass').val()){
+                $('#repass_test').text('密码不一致')
+                $('#L_repass').val('')
+                $('#L_pass').val('')
+            }
+        }
+    </script>
+
 </head>
 <body>
 
-<div class="fly-header layui-bg-black">
-    <div class="layui-container">
-        <a class="fly-logo" href="/">
-            <img src="${pageContext.request.contextPath}/static/images/logo.png" alt="layui">
-        </a>
-        <ul class="layui-nav fly-nav layui-hide-xs">
-            <li class="layui-nav-item layui-this">
-                <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="../case/case.jsp"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-            </li>
-        </ul>
-
-        <ul class="layui-nav fly-nav-user">
-            <!-- 未登入的状态 -->
-            <li class="layui-nav-item">
-                <a class="iconfont icon-touxiang layui-hide-xs" href="login"></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="login">登入</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="reg">注册</a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs">
-                <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs">
-                <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
-            </li>
-        </ul>
-    </div>
-</div>
+<%@include file="../common/header.jsp"%>
 
 <div class="layui-container fly-marginTop">
-    <div class="fly-panel fly-panel-user" pad20>
+        <div class="fly-panel fly-panel-user" pad20>
         <div class="layui-tab layui-tab-brief" lay-filter="user">
             <ul class="layui-tab-title">
-                <li><a href="login">登入</a></li>
+                <li><a href="/user/login">登入</a></li>
                 <li class="layui-this">注册</li>
             </ul>
             <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show">
                     <div class="layui-form layui-form-pane">
-                        <form method="post">
+                        <form id="form1" method="post" action="${pageContext.request.contextPath}/user/doreg">
                             <div class="layui-form-item">
                                 <label for="L_email" class="layui-form-label">邮箱</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                                    <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input" onblur="checkemail()">
+                                    <span id="span_return_checkEmail"></span>
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_username" class="layui-form-label">昵称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" id="L_username" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="text" id="L_username" name="nickname" required lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_pass" class="layui-form-label">密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="password" id="L_pass" name="passwd" required lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">6到16个字符</div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_repass" class="layui-form-label">确认密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input" onblur="checkre()">
+                                    <span id="repass_test"></span>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_vercode" class="layui-form-label">人类验证</label>
                                 <div class="layui-input-inline">
                                     <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
+                                    <span id="checkRenlei"></span>
                                 </div>
                                 <div class="layui-form-mid">
-                                    <span style="color: #c00;">{{d.vercode}}</span>
+                                    <span style="color: #c00;" id="spanRenlei"></span>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -130,19 +125,19 @@
     </p>
 </div>
 
-<script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
+<script src="${pageContext.request.contextPath}/res/layui/layui.js"></script>
 <script>
     layui.cache.page = 'user';
     layui.cache.user = {
         username: '游客'
         ,uid: -1
-        ,avatar: '${pageContext.request.contextPath}/static/images/avatar/00.jpg'
+        ,avatar: '${pageContext.request.contextPath}/res/images/avatar/00.jpg'
         ,experience: 83
         ,sex: '男'
     };
     layui.config({
         version: "3.0.0"
-        ,base: '${pageContext.request.contextPath}/static/mods/'
+        ,base: '${pageContext.request.contextPath}/res/mods/'
     }).extend({
         fly: 'index'
     }).use('fly');

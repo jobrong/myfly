@@ -14,9 +14,12 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd ">
 
+
     <!-- 加载db.properties文件中的内容，db.properties文件中key命名要有一定的特殊规则 -->
     <context:property-placeholder location="classpath:db.properties" />
+
     <!-- 配置数据源 ，dbcp -->
+
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
@@ -25,22 +28,18 @@
         <property name="password" value="${jdbc.password}" />
 
         <!-- 配置初始化大小、最小、最大 -->
-        <!--初始化连接数为1-->
         <property name="initialSize" value="1" />
-        <!--销毁剩余不少于1-->
         <property name="minIdle" value="1" />
-        <!--连接池新建最大链接数-->
         <property name="maxActive" value="20" />
 
         <!-- 配置获取连接等待超时的时间 -->
         <property name="maxWait" value="60000" />
 
-
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 上一次使用到最近检测时间 -->
-        <property name="minEvictableIdleTimeMillis" value="300000" />
 
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
 
         <property name="validationQuery" value="SELECT 'x'" />
         <property name="testWhileIdle" value="true" />
@@ -69,4 +68,6 @@
         <property name="basePackage" value="com.neusoft.mapper"></property>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
+
+
 </beans>

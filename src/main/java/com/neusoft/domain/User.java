@@ -3,6 +3,25 @@ package com.neusoft.domain;
 import java.util.Date;
 
 public class User {
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", passwd='" + passwd + '\'' +
+                ", city='" + city + '\'' +
+                ", sign='" + sign + '\'' +
+                ", sex=" + sex +
+                ", picPath='" + picPath + '\'' +
+                ", qq='" + qq + '\'' +
+                ", weibo='" + weibo + '\'' +
+                ", vipGrade=" + vipGrade +
+                ", kissNum=" + kissNum +
+                ", joinTime=" + joinTime +
+                '}';
+    }
+
     private Integer id;
 
     private String email;
