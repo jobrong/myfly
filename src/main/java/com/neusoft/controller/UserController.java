@@ -25,13 +25,13 @@ import java.util.UUID;
 @RequestMapping("user")
 public class UserController {
 
-
+    //注册界面
     @RequestMapping("reg")
     public String reg(){
-        System.out.println(userMapper.selectByPrimaryKey(7369));
+//        System.out.println(userMapper.selectByPrimaryKey(7369));
         return "user/reg";
     }
-
+    //注册
     @Autowired
     UserMapper userMapper;
     @RequestMapping("doreg")
@@ -53,11 +53,13 @@ public class UserController {
         }
         return regRespObj;
     }
+    //设置页面
     @RequestMapping("set")
     public String set(){
 
         return "user/set";
     }
+    //基本设置
     @RequestMapping("baseset")
     @ResponseBody
     public RegRespObj baseset(User user,HttpServletRequest request){
@@ -75,7 +77,7 @@ public class UserController {
         }
         return regRespObj;
     }
-
+    //上传图片
     @RequestMapping("upload")
     @ResponseBody
     public RegRespObj upload(@RequestParam MultipartFile file,HttpServletRequest request) throws IOException {
@@ -89,18 +91,22 @@ public class UserController {
             }
             //获取uuid
             UUID uuid = UUID.randomUUID();
-            //创建文件
+            //创建文件 放入本地
             File file2 = new File(realPath+File.separator+uuid+file.getOriginalFilename());
             file.transferTo(file2);
             //获得userinfo
             HttpSession session = request.getSession();
             User userinfo = (User)session.getAttribute("userinfo");
+            //删除原头像
+            if(userinfo.getPicPath() != null){
+//                File file3 = new File(realPath+File.separator+userinfo.getPicPath())
+            }
             //修改当前对象picpath
             userinfo.setPicPath(uuid+file.getOriginalFilename());
             //修改当前对象
             session.setAttribute("userinfo",userinfo);
-            //更新数据库
-            userMapper.updateByPrimaryKeySelective(userinfo);
+            //更新数据库照片地址字符串
+            userMapper.updatepicByPrimaryKeySelective(userinfo);
             regRespObj.setStatus(0);
         }
         else
