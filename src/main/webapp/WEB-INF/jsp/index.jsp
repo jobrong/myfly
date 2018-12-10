@@ -207,7 +207,7 @@
                         </a>
                         <h2>
                             <a class="layui-badge">${topic.name}</a>
-                            <a href="${pageContext.request.contextPath}/jie/detail">${topic.title}</a>
+                            <a href="${pageContext.request.contextPath}/jie/detail/${topic.id}">${topic.title}</a>
                         </h2>
                         <div class="fly-list-info">
                             <a href="${pageContext.request.contextPath}/user/home" link>
