@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,10 +41,11 @@ public class JieController {
         RegRespObj regRespObj = new RegRespObj();
         User user =(User) request.getSession().getAttribute("userinfo");
         topic.setUserid(user.getId());
+        topic.setCreateTime(new Date());
         int i = topicMapper.insertSelective(topic);
         if (i > 0){
             regRespObj.setStatus(0);
-            regRespObj.setAction(request.getServletContext().getContextPath() + "/jie/detail");
+            regRespObj.setAction(request.getServletContext().getContextPath() + "/");
         }
         return regRespObj;
     }

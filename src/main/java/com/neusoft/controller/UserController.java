@@ -150,6 +150,7 @@ public class UserController {
 
         return "user/login";
     }
+
     @RequestMapping("logout")
     public String logout(HttpServletRequest request)
     {
