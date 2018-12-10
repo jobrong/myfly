@@ -32,7 +32,12 @@
                 data:a,
                 dataType:"json",
                 success:function (data) {
-                    $("#span_return_checkEmail").text(data.msg);
+                    if(data.msg == "可以注册"){
+                        $("#span_return_checkEmail").text(data.msg);
+                    }else{
+                        $("#span_return_checkEmail").text(data.msg);
+                        $("#L_email").val('')
+                    }
                 }
             })
         }
@@ -44,7 +49,6 @@
             }
         }
     </script>
-
 </head>
 <body>
 
@@ -80,7 +84,7 @@
                                 <div class="layui-input-inline">
                                     <input type="password" id="L_pass" name="passwd" required lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
-                                <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                                <div class="layui-form-mid layui-word-aux"></div>
                             </div>
                             <div class="layui-form-item">
                                 <label for="L_repass" class="layui-form-label">确认密码</label>

@@ -20,19 +20,33 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/res/css/global.css">
     <script src="${pageContext.request.contextPath}/res/jquery-3.3.1.js"></script>
     <script>
-        <%--$(function () {--%>
-            <%--$('.layui-btn').click(function () {--%>
-                <%--var a =$('#form1').serialize()--%>
-                <%--$.post({--%>
-                    <%--url : '${pageContext.request.contextPath}/user/baseset',--%>
-                    <%--data : a,--%>
-                    <%--datatype : 'json',--%>
-                    <%--success : function (e) {--%>
-                        <%--alert(e.msg);--%>
-                    <%--}--%>
-                <%--})--%>
-            <%--})--%>
-        <%--})--%>
+        function checkpass() {
+            var a=$("#form2").serialize();
+            if($("#L_nowpass").val().length==0){
+                $("#nowpass").text("输入密码为空，请重新输入");
+                return
+            }
+            $.post({
+                url:"${pageContext.request.contextPath}/user/checkpass",
+                data:a,
+                dataType:"json",
+                success:function (data) {
+                    if(data.msg == "密码正确"){
+                        $("#nowpass").text(data.msg);
+                    }else{
+                        $("#nowpass").text(data.msg);
+                        $('#L_nowpass').val('')
+                    }
+                }
+            })
+        }
+        function checkre() {
+            if ($('#L_pass').val() != $('#L_repass').val()){
+                $('#repass_test').text('密码不一致')
+                $('#L_pass').val('')
+                $('#L_repass').val('')
+            }
+        }
     </script>
 </head>
 <body>
@@ -42,25 +56,25 @@
 <div class="layui-container fly-marginTop fly-user-main">
     <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
         <li class="layui-nav-item">
-            <a href="home.html">
+            <a href="${pageContext.request.contextPath}/user/home">
                 <i class="layui-icon">&#xe609;</i>
                 我的主页
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="index.html">
+            <a href="${pageContext.request.contextPath}/user/index">
                 <i class="layui-icon">&#xe612;</i>
                 用户中心
             </a>
         </li>
         <li class="layui-nav-item layui-this">
-            <a href="set.html">
+            <a href="${pageContext.request.contextPath}/user/set">
                 <i class="layui-icon">&#xe620;</i>
                 基本设置
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="message.html">
+            <a href="${pageContext.request.contextPath}/user/message">
                 <i class="layui-icon">&#xe611;</i>
                 我的消息
             </a>
@@ -86,6 +100,7 @@
                 <li lay-id="pass">密码</li>
                 <li lay-id="bind">帐号绑定</li>
             </ul>
+
             <div class="layui-tab-content" style="padding: 20px 0;">
                 <div class="layui-form layui-form-pane layui-tab-item layui-show">
                     <form method="post" id="form1" action="${pageContext.request.contextPath}/user/baseset">
@@ -108,6 +123,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="layui-form-item">
                             <label for="L_city" class="layui-form-label">城市</label>
                             <div class="layui-input-inline">
@@ -145,30 +163,32 @@
                         </div>
                     </div>
                 </div>
-
+            <%--修改密码--%>
                 <div class="layui-form layui-form-pane layui-tab-item">
-                    <form action="/user/repass" method="post">
+                    <form action="/user/repass" method="post" id="form2">
                         <div class="layui-form-item">
                             <label for="L_nowpass" class="layui-form-label">当前密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" id="L_nowpass" name="nowpass" required lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="password" id="L_nowpass" name="nowpass" required lay-verify="required" autocomplete="off" class="layui-input" onblur="checkpass()">
+                                <span id="nowpass"></span>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label for="L_pass" class="layui-form-label">新密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="password" id="L_pass" name="passwd" required lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                            <div class="layui-form-mid layui-word-aux"></div>
                         </div>
                         <div class="layui-form-item">
                             <label for="L_repass" class="layui-form-label">确认密码</label>
                             <div class="layui-input-inline">
-                                <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input" onblur="checkre()">
+                                <span id="repass_test"></span>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+                            <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit >确认修改</button>
                         </div>
                     </form>
                 </div>

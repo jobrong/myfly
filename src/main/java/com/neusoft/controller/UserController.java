@@ -24,14 +24,22 @@ import java.util.UUID;
 @Controller
 @RequestMapping("user")
 public class UserController {
-
-
+    //注册界面
     @RequestMapping("reg")
-    public String reg(){
-        System.out.println(userMapper.selectByPrimaryKey(7369));
-        return "user/reg";
-    }
-
+    public String reg(){return "user/reg";    }
+    //设置页面
+    @RequestMapping("set")
+    public String set(){return "user/set";}
+    //用户中心
+    @RequestMapping("index")
+    public String index(){return "user/index";}
+    //我的主页
+    @RequestMapping("home")
+    public String home(){return "user/home";}
+    //我的消息
+    @RequestMapping("message")
+    public String message(){return "user/message";}
+    //注册
     @Autowired
     UserMapper userMapper;
     @RequestMapping("doreg")
@@ -53,17 +61,19 @@ public class UserController {
         }
         return regRespObj;
     }
-    @RequestMapping("set")
-    public String set(){
 
-        return "user/set";
-    }
+    //基本设置
     @RequestMapping("baseset")
     @ResponseBody
     public RegRespObj baseset(User user,HttpServletRequest request){
-        RegRespObj regRespObj = new RegRespObj();
         User user1 =(User) request.getSession().getAttribute("userinfo");
         user.setId(user1.getId());
+        user1.setEmail(user.getEmail());
+        user1.setCity(user.getCity());
+        user1.setNickname(user.getNickname());
+        user1.setSex(user.getSex());
+        user1.setSign(user.getSign());
+        RegRespObj regRespObj = new RegRespObj();
         int i = userMapper.updateByPrimaryKeySelective(user);
         if(i>=0){
             regRespObj.setStatus(0);
@@ -75,7 +85,27 @@ public class UserController {
         }
         return regRespObj;
     }
-
+    //更新密码
+    @RequestMapping("repass")
+    @ResponseBody
+    public RegRespObj repass(User user,HttpServletRequest request){
+        User user1 =(User) request.getSession().getAttribute("userinfo");
+        user.setId(user1.getId());
+        user.setPasswd(MD5Utils.getPwd(user.getPasswd()));
+        RegRespObj regRespObj = new RegRespObj();
+        user1.setPasswd( MD5Utils.getPwd(user.getPasswd()) );
+        int i = userMapper.updateByPrimaryKeySelective(user);
+        if(i>=0){
+            regRespObj.setStatus(0);
+            regRespObj.setMsg("更新成功");
+            regRespObj.setAction(request.getServletContext().getContextPath()+"/user/set");
+        }else {
+            regRespObj.setMsg("更新失败");
+            regRespObj.setStatus(1);
+        }
+        return regRespObj;
+    }
+    //上传图片
     @RequestMapping("upload")
     @ResponseBody
     public RegRespObj upload(@RequestParam MultipartFile file,HttpServletRequest request) throws IOException {
@@ -89,15 +119,20 @@ public class UserController {
             }
             //获取uuid
             UUID uuid = UUID.randomUUID();
-            //创建文件
+            //创建文件 放入本地
             File file2 = new File(realPath+File.separator+uuid+file.getOriginalFilename());
             file.transferTo(file2);
             //获得userinfo
             HttpSession session = request.getSession();
             User userinfo = (User)session.getAttribute("userinfo");
+//            //删除原头像
+//            if(userinfo.getPicPath() != null){
+//                File file3 = new File(realPath+userinfo.getPicPath());
+//                file3.delete();
+//            }
             //修改当前对象picpath
             userinfo.setPicPath(uuid+file.getOriginalFilename());
-            //修改当前对象
+            //修改当前userinfo对象
             session.setAttribute("userinfo",userinfo);
             //更新数据库
             userMapper.updateByPrimaryKeySelective(userinfo);
@@ -148,6 +183,22 @@ public class UserController {
             regRespObj.setMsg("可以注册");
         }else {
             regRespObj.setMsg("邮箱重复，请更换邮箱");
+        }
+        return regRespObj;
+    }
+
+    @RequestMapping("/checkpass")
+    @ResponseBody
+    public RegRespObj checkpass(String nowpass,HttpServletRequest request){
+        RegRespObj regRespObj = new RegRespObj();
+        User user =(User) request.getSession().getAttribute("userinfo");
+        System.out.println(nowpass);
+        System.out.println(MD5Utils.getPwd(nowpass));
+        System.out.println(userMapper.selectByPrimaryKey(user.getId()).getPasswd());
+        if(MD5Utils.getPwd(nowpass).equals(userMapper.selectByPrimaryKey(user.getId()).getPasswd())){
+            regRespObj.setMsg("密码正确");
+        }else {
+            regRespObj.setMsg("密码不存在");
         }
         return regRespObj;
     }
