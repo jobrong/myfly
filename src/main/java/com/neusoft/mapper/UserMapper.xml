@@ -169,6 +169,45 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updatepicByPrimaryKeySelective" parameterType="com.neusoft.domain.User" >
+    update tab_user
+    <set >
+      <if test="picPath != null" >
+        pic_path = #{picPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatebasicByPrimaryKeySelective" parameterType="com.neusoft.domain.User" >
+    update tab_user
+    <set >
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updatepasswdByPrimaryKeySelective" parameterType="com.neusoft.domain.User" >
+    update tab_user
+    <set >
+      <if test="passwd != null" >
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.neusoft.domain.User" >
     update tab_user
     set email = #{email,jdbcType=VARCHAR},
