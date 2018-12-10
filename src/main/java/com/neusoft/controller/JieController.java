@@ -67,7 +67,7 @@ public class JieController {
         map.put("create_time",strDate);
 
         modelAndView.setViewName("jie/detail");
-        modelAndView.addObject("topic",map);
+        modelAndView.addObject("topictext",map);
         return modelAndView;
     }
 }

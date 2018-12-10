@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>${topic.title}</title>
+    <title>${topictext.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="fly,layui,前端社区">
     <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
@@ -49,10 +49,10 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8 content detail">
             <div class="fly-panel detail-box">
-                <h1>${topic.title}</h1>
+                <h1>${topictext.title}</h1>
                 <div class="fly-detail-info">
                     <!-- <span class="layui-badge">审核中</span> -->
-                    <span class="layui-badge layui-bg-green fly-detail-column">${topic.name}</span>
+                    <span class="layui-badge layui-bg-green fly-detail-column">${topictext.name}</span>
                     <span class="layui-badge" style="background-color: #999;">未结</span>
                     <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
                     <span class="layui-badge layui-bg-black">置顶</span>
@@ -70,10 +70,10 @@
           </span>
                 </div>
                 <div class="detail-about">
-                    <a class="fly-avatar" href="../user/home.html">
+                    <a class="fly-avatar" href="${pageContext.request.contextPath}/user/home">
                         <c:choose>
-                            <c:when test="${topic.pic_path != ''}">
-                                <img src="${pageContext.request.contextPath}/res/uploadImgs/${topic.pic_path}" alt="${topic.nickname}">
+                            <c:when test="${topictext.pic_path != ''}">
+                                <img src="${pageContext.request.contextPath}/res/uploadImgs/${topictext.pic_path}" alt="${topictext.nickname}">
                             </c:when>
                             <c:otherwise>
                                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
@@ -82,19 +82,22 @@
                     </a>
                     <div class="fly-detail-user">
                         <a href="../user/home.html" class="fly-link">
-                            <cite>${topic.nickname}</cite>
+                            <cite>${topictext.nickname}</cite>
                             <i class="iconfont icon-renzheng" title="认证信息：{{ rows.user.approve }}"></i>
-                            <i class="layui-badge fly-badge-vip">VIP3</i>
+                            <i class="layui-badge fly-badge-vip">VIP${topictext.vip_grade}</i>
                         </a>
-                        <span>${topic.create_time}</span>
+                        <span>${topictext.create_time}</span>
                     </div>
                     <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
-                        <span style="padding-right: 10px; color: #FF7200">悬赏：${topic.kiss_num}飞吻</span>
-                        <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+                        <span style="padding-right: 10px; color: #FF7200">悬赏：${topictext.kiss_num}飞吻</span>
+                    <c:if test="${userinfo.id == topictext.userid}">
+                        <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="${pageContext.request.contextPath}/jie/add">编辑此贴</a></span>
+                    </c:if>
+
                     </div>
                 </div>
                 <div class="detail-body photos">
-                    ${topic.content}
+                    ${topictext.content}
                 </div>
             </div>
             <div class="fly-panel detail-box" id="flyReply">
@@ -110,9 +113,9 @@
                             </a>
                             <div class="fly-detail-user">
                                 <a href="" class="fly-link">
-                                    <cite>贤心</cite>
+                                    <cite>${topictext.nickname}</cite>
                                     <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                                    <i class="layui-badge fly-badge-vip">VIP${topictext.vip_grade}</i>
                                 </a>
                                 <span>(楼主)</span>
                                 <!--
@@ -288,12 +291,12 @@
         var $ = layui.$
             ,fly = layui.fly;
         //如果你是采用模版自带的编辑器，你需要开启以下语句来解析。
-        /*
+
          $('.detail-body').each(function(){
          var othis = $(this), html = othis.html();
          othis.html(fly.content(html));
          });
-         */
+
     });
 </script>
 </body>
