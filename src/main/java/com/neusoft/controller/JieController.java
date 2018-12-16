@@ -1,9 +1,12 @@
 package com.neusoft.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.neusoft.domain.Category;
+import com.neusoft.domain.Comment;
 import com.neusoft.domain.Topic;
 import com.neusoft.domain.User;
 import com.neusoft.mapper.CategoryMapper;
+import com.neusoft.mapper.CommentMapper;
 import com.neusoft.mapper.TopicMapper;
 import com.neusoft.response.RegRespObj;
 import com.neusoft.utils.StringDate;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,8 @@ public class JieController {
     CategoryMapper CategoryMapper;
     @Autowired
     TopicMapper topicMapper;
+    @Autowired
+    CommentMapper commentMapper;
     @RequestMapping("add")
     public ModelAndView add(){
     List<Category> topicCategoryList = CategoryMapper.getAllCategories();
@@ -66,8 +74,38 @@ public class JieController {
         String strDate = StringDate.getStringDate(date);
         map.put("create_time",strDate);
 
+        List<Map<String,Object>> mapList = commentMapper.getCommentsByTopicID(id);
+        for(Map<String,Object> map2 : mapList)
+        {
+            Date date2 = (Date)map2.get("comment_time");
+            String strDate2 = StringDate.getStringDate(date2);
+            map2.put("comment_time",strDate2);
+        }
+
         modelAndView.setViewName("jie/detail");
         modelAndView.addObject("topictext",map);
+        modelAndView.addObject("comments",mapList);
         return modelAndView;
+    }
+    @RequestMapping("reply")
+    public void reply(Comment comment, String content, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        RegRespObj regRespObj = new RegRespObj();
+        HttpSession httpSession = request.getSession();
+        User user = (User)httpSession.getAttribute("userinfo");
+        if(user != null)
+        {
+            comment.setCommentContent(content);
+            comment.setUserId(user.getId());
+            comment.setCommentTime(new Date());
+            commentMapper.insertSelective(comment);
+            regRespObj.setStatus(0);
+        }
+        else
+        {
+            regRespObj.setStatus(0);
+            regRespObj.setAction(request.getServletContext().getContextPath()+"/user/login");
+        }
+        response.getWriter().println(JSON.toJSONString(regRespObj));
+        return;
     }
 }
